@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: daalmeid <daalmeid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/25 17:03:57 by daalmeid          #+#    #+#             */
-/*   Updated: 2022/02/01 18:54:01 by daalmeid         ###   ########.fr       */
+/*   Created: 2022/02/04 13:41:20 by daalmeid          #+#    #+#             */
+/*   Updated: 2022/02/14 16:56:54 by daalmeid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,188 +14,159 @@
 #include "libft.h"
 #include <stdio.h>
 
-int	key_print(int key, void *param)
+t_cd	base_grid_dimensions(char *map, int fd)
 {
-	ft_putnbr_fd(key, 1);
-	ft_putchar_fd(' ', 1);
-	if (key == 53)
-		exit(0);
-	return (0);
-}
-
-t_cd	**prep_grid(t_cd **grid)
-{
-	int i;
-	
-	i = 0;
-	grid = malloc((sizeof(t_cd *) * 12) + 1);
-	if (!grid)
-	{
-		write(2, "malloc failure\n", 16);
-		return (NULL);
-	}
-	while (i < 12)
-	{
-		grid[i] = malloc(sizeof(t_cd) * 19);
-		if (!grid[i])
-		{	
-			i = 0;
-			while (grid[i] != NULL)
-				free (grid[i]);
-			free (grid);
-			write(2, "malloc failure\n", 16);
-			return (NULL);
-		}
-		i++;
-	}
-	grid[i] = NULL;
-	return (grid);
-}
-
-void	first_elem_grid(t_cd **grid)
-{
-	int 	count;
-
-	count = 1;
-	while (count < 19)
-	{
-		grid[0][count].x = 20 * cos(M_PI / 6) + grid[0][count - 1].x;
-		grid[0][count].y = 20 * sin(M_PI / 6) + grid[0][count - 1].y;
-		count++;
-	}
-}
-
-t_cd	**prep_base_grid(void **new, char *line, int fd)
-{
-	int 	count;
-	int 	i;
-	t_cd	**grid;
-
-	grid = prep_grid(grid);
-	if (!grid)
-		return (NULL);
-	i = 1;
-	grid[0][0].x = 960 - 180;
-	grid[0][0].y = 540 - 110;
-	first_elem_grid(grid);
-	while (line != NULL) 
-	{
-		count = 0;
-		while (count < 19)
-		{
-			grid[i][count].x = grid[i - 1][count].x - (20 * cos(M_PI / 6)); 
-			grid[i][count].y = grid[i - 1][count].y + (20 * sin(M_PI / 6));
-			count++;
-		}
-		free(line);
-		line = get_next_line(fd);
-		i++;
-	}
-	return (grid);
-}
-
-t_cd	**final_design(void *new, t_cd **grid, char *map)
-{
-	int		fd;
 	char	*line;
-	char	**z;
-	int		i;
-	int		j = 0;
-	int		to_free = 0;
+	char	**x_axis;
+	t_cd	size;
 
-	fd = open(map, O_RDONLY);
-	if (fd == -1)
+	size.x = 0;
+	size.y = 0;
+	fd = file_dealer(fd, map);
+	line = get_next_line(fd);
+	x_axis = ft_split(line, ' ');
+	if (!x_axis)
 	{
-		write(2, "open() failed\n", 15);
-		return (NULL);
+		write(2, "Error getting dimensions\n", 26);
+		exit(0);
 	}
+	while (x_axis[size.x] != NULL && ft_strncmp(x_axis[size.x], "\n", 2))
+		size.x++;
+	ptr_ptr_free((void **) x_axis);
 	while (line != NULL)
-	{
-		i = 0;
-		line = get_next_line(fd);
-		if (!line)
-		{
-			close(fd);
-			return (grid);
-		}
-		z = ft_split(line, ' ');
-		if (!z)
-		{
-			free (line);
-			close(fd);
-			return (NULL);
-		}
-		while (z[i] != NULL)
-		{
-			grid[j][i].y -= ft_atoi(z[i]);
-			i++;
-		}
-		while (z[to_free] != NULL)
-			free(z[to_free++]);
-		free(z);
+	{		
+		size.y++;
 		free(line);
-		j++;
-		to_free = 0;
+		line = get_next_line(fd);
 	}
-	if (close(fd) == -1)
+	fd = file_dealer(fd, map);
+	return (size);
+}
+
+int	image_width(t_cd size, t_cd **grid)
+{
+	int	width_low;
+	int	width_high;
+
+	width_low = grid[size.y - 1][0].x;
+	width_high = grid[0][size.x - 1].x;
+	return (width_high - width_low + 1);
+}
+
+void	correct_y(t_cd **grid, t_cd size, int y)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < size.y)
 	{
-		write(2, "close() failed\n", 16);
-		return (NULL);
+		j = 0;
+		while (j < size.x)
+		{
+			grid[i][j].y -= (y - 3);
+			j++;
+		}
+		i++;
 	}
-	return (grid);
+}
+
+int	image_height(t_cd size, t_cd **grid)
+{
+	int	height_low;
+	int	height_high;
+	int	i;
+	int	j;
+
+	i = 0;
+	height_low = grid[0][0].y;
+	height_high = grid[size.y - 1][size.x - 1].y;
+	while (i < size.y)
+	{
+		j = 0;
+		while (j < size.x)
+		{
+			if (grid[i][j].y < height_low)
+				height_low = grid[i][j].y;
+			j++;
+		}
+		i++;
+	}
+	i = 0;
+	while (i < size.y)
+	{
+		j = 0;
+		while (j < size.x)
+		{
+			if (grid[i][j].y > height_high)
+				height_high = grid[i][j].y;
+			j++;
+		}
+		i++;
+	}
+	correct_y(grid, size, height_low);
+	return (height_high - height_low + 1);
+}
+
+t_cd	**keep_grid(t_cd **grid)
+{
+	static t_cd	**save;
+
+	if (grid != NULL)
+	{
+		save = grid;
+		return (0);
+	}
+	return (save);
+}
+
+t_cd	grid_based_size(t_cd **grid)
+{
+	t_cd	size;
+
+	size.x = 0;
+	size.y = 0;
+	while (grid[size.y][size.x].x != -2147483648)
+		size.x++;
+	while (grid[size.y] != NULL)
+		size.y++;
+	return (size);
+}
+
+void	hooks(void **new)
+{
+	mlx_key_hook(new[1], key_handler, new);
+	mlx_hook(new[1], 17, 0, cross_handler, new);
+	mlx_mouse_hook(new[1], click_handler, new);
 }
 
 int	main(int ac, char **av)
 {
-	void	*new[2];
-	int		fd;
-	int		y = 0;
-	char	*line;
+	void	*new[3];
 	t_cd	**grid;
+	t_cd	size;
+	int		width;
+	int		height;
 
 	if (ac != 2)
 		return (0);
-	new[0] = mlx_init();
-	new[1] = mlx_new_window(new[0], 1920, 1080, "Test");
-	/*while (i < 901)
-	{
-		mlx_pixel_put(new[0], new[1], i, 500 + y, 0xffffff);
-		mlx_pixel_put(new[0], new[1], i, 500 - y, 0xffffff);
-		i++;
-		if (y == 400)
-			y = -400;
-		y++;
-	}
-	y = 100;
-	while (y < 900)
-	{	
-		mlx_pixel_put(new[0], new[1], 500, y, 0xffffff);
-		mlx_pixel_put(new[0], new[1], y++, 500, 0xffffff);
-	}*/
-	mlx_key_hook(new[1], key_print, (void *) 0);
-	mlx_mouse_hook(new[1], ft_line_creation, new);
-	fd = open(av[1], O_RDONLY);
-	if (fd == -1)
-	{
-		write(2, "open() failed\n", 15);
-		return (0);
-	}
-	line = get_next_line(fd);
-	grid = prep_base_grid(new, line, fd);
-	if (grid == NULL || final_design(new, grid, av[1]) == 0)
+	size = base_grid_dimensions(av[1], -2);
+	grid = ft_prep_base_grid(size, 0);
+	if (grid == NULL || ft_final_design(grid, av[1]) == NULL)
 	{
 		write(2, "Error creating grid.\n", 22);
 		return (0);
 	}
+	keep_grid(grid);
+	width = image_width(size, grid);
+	height = image_height(size, grid);
+	new[0] = mlx_init();
+	new[1] = mlx_new_window(new[0], width + 100, height + 100, "FdF");
+	new[2] = mlx_new_image(new[0], width + 6, height + 6);
+	hooks(new);
 	ft_drawing(grid, new);
-	while (y < 13)
-		free(grid[y++]);
-	free(grid);
-	if (close(fd) == -1)
-	{
-		write(2, "close() failed\n", 16);
-		return (0);
-	}
+	keep_xy_image(50, 50);
+	mlx_put_image_to_window(new[0], new[1], new[2], 50, 50);
 	mlx_loop(new[0]);
 	return (0);
 }
