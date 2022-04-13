@@ -6,7 +6,7 @@
 /*   By: daalmeid <daalmeid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 17:10:02 by daalmeid          #+#    #+#             */
-/*   Updated: 2022/02/15 11:50:14 by daalmeid         ###   ########.fr       */
+/*   Updated: 2022/02/18 16:24:24 by daalmeid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	hexstring_to_int(char *hexsting)
 	return (num);
 }
 
-static int	z_addition(t_cd *grid_line, char *line, char *map, int fd)
+static int	z_addition(t_cd *grid_line, char *line)
 {
 	int		i;
 	char	**z;
@@ -50,15 +50,14 @@ static int	z_addition(t_cd *grid_line, char *line, char *map, int fd)
 	z = ft_split(line, ' ');
 	if (!z)
 	{
+		perror("error splitting line");
 		free(line);
-		fd = file_dealer(fd, map);
-		write(2, "Error adding z\n", 16);
 		return (0);
 	}
 	while (z[i] != NULL && z[i][0] != '\n')
 	{
 		grid_line[i].z = ft_atoi(z[i]);
-		grid_line[i].y -= ft_atoi(z[i]);
+		grid_line[i].y -= ft_atoi(z[i]) * keep_z_change(-2147483648);
 		grid_line[i].color = 0xffffff;
 		comma_ptr = ft_strchr(z[i], ',');
 		if (comma_ptr != NULL)
@@ -80,9 +79,10 @@ t_cd	**ft_final_design(t_cd **grid, char *map)
 	j = 0;
 	while (line != NULL)
 	{
-		if (!z_addition(grid[j], line, map, fd))
+		if (!z_addition(grid[j], line))
 		{	
 			ptr_ptr_free((void **)grid);
+			grid = NULL;
 			break ;
 		}
 		j++;
@@ -90,5 +90,7 @@ t_cd	**ft_final_design(t_cd **grid, char *map)
 		line = get_next_line(fd);
 	}
 	fd = file_dealer(fd, map);
+	if (grid != NULL)
+		keep_grid(grid);
 	return (grid);
 }

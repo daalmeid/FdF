@@ -6,71 +6,49 @@
 /*   By: daalmeid <daalmeid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 15:22:06 by daalmeid          #+#    #+#             */
-/*   Updated: 2022/02/15 12:21:15 by daalmeid         ###   ########.fr       */
+/*   Updated: 2022/02/18 16:41:14 by daalmeid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include "libft.h"
 
-static int	pixel_nbr(t_cd cd[], float b, int *i)
+static void	real_line_draw(t_cd cd[], float b)
 {
 	float	slope;
 
+	slope = (cd[0].y - cd[1].y) * cd[0].x + ((cd[0].x - cd[1].x)
+			* -cd[0].y) + (cd[0].x - cd[1].x) * b;
+	if ((slope > 0 && cd[0].y < cd[1].y)
+		|| (slope < 0 && cd[0].y > cd[1].y) || cd[0].y == cd[1].y)
+		cd[0].x++;
+	else if (slope < 0 && (cd[0].y < cd[1].y || cd[0].x == cd[1].x))
+		cd[0].y++;
+	else if (slope > 0 && (cd[0].y > cd[1].y || cd[0].x == cd[1].x))
+		cd[0].y--;
+	else if (slope == 0)
+	{
+		cd[0].x++;
+		if (cd[0].y < cd[1].y)
+			cd[0].y++;
+		else if (cd[0].y > cd[1].y)
+			cd[0].y--;
+	}
+}
+
+static int	pixel_nbr(t_cd cd[], float b, int *i)
+{
 	*i = 0;
 	while (cd[0].x != cd[1].x || cd[0].y != cd[1].y)
 	{
-		slope = (cd[0].y - cd[1].y) * cd[0].x + ((cd[0].x - cd[1].x)
-				* -cd[0].y) + (cd[0].x - cd[1].x) * b;
-		if ((slope > 0 && cd[0].y < cd[1].y)
-			|| (slope < 0 && cd[0].y > cd[1].y) || cd[0].y == cd[1].y)
-			cd[0].x++;
-		else if (slope < 0 && (cd[0].y < cd[1].y || cd[0].x == cd[1].x))
-			cd[0].y++;
-		else if (slope > 0 && (cd[0].y > cd[1].y || cd[0].x == cd[1].x))
-			cd[0].y--;
-		else if (slope == 0)
-		{
-			cd[0].x++;
-			if (cd[0].y < cd[1].y)
-				cd[0].y++;
-			else if (cd[0].y > cd[1].y)
-				cd[0].y--;
-		}
+		real_line_draw(cd, b);
 		(*i)++;
 	}
 	return (*i);
 }
 
-static void	real_line_draw(t_cd cd[], float b)
+static void	prep_line_draw(t_cd cd[], float b, t_data img_data)
 {
-	float	slope;
-	
-	while (cd[0].x != cd[1].x || cd[0].y != cd[1].y)
-	{
-		slope = (cd[0].y - cd[1].y) * cd[0].x + ((cd[0].x - cd[1].x)
-				* -cd[0].y) + (cd[0].x - cd[1].x) * b;
-		if ((slope > 0 && cd[0].y < cd[1].y)
-			|| (slope < 0 && cd[0].y > cd[1].y) || cd[0].y == cd[1].y)
-			cd[0].x++;
-		else if (slope < 0 && (cd[0].y < cd[1].y || cd[0].x == cd[1].x))
-			cd[0].y++;
-		else if (slope > 0 && (cd[0].y > cd[1].y || cd[0].x == cd[1].x))
-			cd[0].y--;
-		else if (slope == 0)
-		{
-			cd[0].x++;
-			if (cd[0].y < cd[1].y)
-				cd[0].y++;
-			else if (cd[0].y > cd[1].y)
-				cd[0].y--;
-		}
-	}
-}
-
-static void	line_draw(t_cd cd[], float b, t_data img_data)
-{
-	float	slope;
 	int		i;
 	t_cd	temp[2];
 
@@ -80,35 +58,17 @@ static void	line_draw(t_cd cd[], float b, t_data img_data)
 	i = (cd[0].color - cd[1].color) / pixel_nbr(temp, b, &i);
 	while (cd[0].x != cd[1].x || cd[0].y != cd[1].y)
 	{
-		slope = (cd[0].y - cd[1].y) * cd[0].x + ((cd[0].x - cd[1].x)
-				* -cd[0].y) + (cd[0].x - cd[1].x) * b;
-		if ((slope > 0 && cd[0].y < cd[1].y)
-			|| (slope < 0 && cd[0].y > cd[1].y) || cd[0].y == cd[1].y)
-			cd[0].x++;
-		else if (slope < 0 && (cd[0].y < cd[1].y || cd[0].x == cd[1].x))
-			cd[0].y++;
-		else if (slope > 0 && (cd[0].y > cd[1].y || cd[0].x == cd[1].x))
-			cd[0].y--;
-		else if (slope == 0)
-		{
-			cd[0].x++;
-			if (cd[0].y < cd[1].y)
-				cd[0].y++;
-			else if (cd[0].y > cd[1].y)
-				cd[0].y--;
-		}
+		real_line_draw(cd, b);
 		cd[0].color -= i;
 		my_pixel_put(&img_data, cd[0].x, cd[0].y, cd[0].color);
 	}
 }
 
-static void	prep_cd(t_cd cd[], void **new)
+static void	prep_cd(t_cd cd[], t_data img_data)
 {
 	float	b;
 	t_cd	temp;
-	t_data	img_data;
 
-	img_data = handle_new_image(new);
 	if (cd[0].x == cd[1].x)
 	{
 		while (cd[0].y != cd[1].y)
@@ -129,22 +89,24 @@ static void	prep_cd(t_cd cd[], void **new)
 		cd[0] = cd[1];
 		cd[1] = temp;
 	}
-	line_draw(cd, b, img_data);
+	prep_line_draw(cd, b, img_data);
 }
 
 int	ft_line_creation(int x, int y, unsigned int color, void *param)
 {
-	void		**new;
+	void		**mlx;
 	static t_cd	cd[2];
 	static int	i = 0;
+	t_data		img_data;
 
-	new = param;
+	mlx = param;
 	cd[i].x = x;
 	cd[i].y = y;
 	cd[i].color = color;
 	if (i++ == 1)
 	{
-		prep_cd(cd, new);
+		img_data = handle_new_image(mlx);
+		prep_cd(cd, img_data);
 		i = 0;
 	}
 	return (0);
