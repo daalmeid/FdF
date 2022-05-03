@@ -6,12 +6,12 @@
 /*   By: daalmeid <daalmeid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 15:25:04 by daalmeid          #+#    #+#             */
-/*   Updated: 2022/04/26 20:09:57 by daalmeid         ###   ########.fr       */
+/*   Updated: 2022/05/03 12:33:18 by daalmeid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include "libft.h"
+#include "../headers/fdf.h"
+#include "../headers/libft.h"
 #include <stdio.h>
 
 void	ft_drawing(t_cd **grd, void **mlx)

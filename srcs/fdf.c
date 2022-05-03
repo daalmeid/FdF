@@ -6,12 +6,12 @@
 /*   By: daalmeid <daalmeid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 13:41:20 by daalmeid          #+#    #+#             */
-/*   Updated: 2022/02/18 17:10:21 by daalmeid         ###   ########.fr       */
+/*   Updated: 2022/05/03 12:33:03 by daalmeid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include "libft.h"
+#include "../headers/fdf.h"
+#include "../headers/libft.h"
 #include <stdio.h>
 
 static t_cd	base_grid_dimensions(char *map, int fd, t_cd *size)

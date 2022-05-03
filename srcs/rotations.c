@@ -6,12 +6,12 @@
 /*   By: daalmeid <daalmeid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 13:36:05 by daalmeid          #+#    #+#             */
-/*   Updated: 2022/02/18 16:51:08 by daalmeid         ###   ########.fr       */
+/*   Updated: 2022/05/03 12:34:24 by daalmeid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include "libft.h"
+#include "../headers/fdf.h"
+#include "../headers/libft.h"
 #include <stdio.h>
 
 static void	rotation_right(t_cd **old_grid, t_cd **new_grid)

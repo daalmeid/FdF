@@ -6,12 +6,12 @@
 /*   By: daalmeid <daalmeid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 12:53:53 by daalmeid          #+#    #+#             */
-/*   Updated: 2022/02/18 12:55:34 by daalmeid         ###   ########.fr       */
+/*   Updated: 2022/05/03 12:34:19 by daalmeid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include "libft.h"
+#include "../headers/fdf.h"
+#include "../headers/libft.h"
 #include <stdio.h>
 
 t_cd	**keep_grid(t_cd **grid)

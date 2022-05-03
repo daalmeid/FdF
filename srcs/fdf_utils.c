@@ -6,12 +6,12 @@
 /*   By: daalmeid <daalmeid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 13:15:14 by daalmeid          #+#    #+#             */
-/*   Updated: 2022/02/18 16:35:13 by daalmeid         ###   ########.fr       */
+/*   Updated: 2022/05/03 12:32:58 by daalmeid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include "libft.h"
+#include "../headers/fdf.h"
+#include "../headers/libft.h"
 #include <stdio.h>
 
 void	ptr_ptr_free(void **ptr)

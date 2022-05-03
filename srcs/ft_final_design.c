@@ -6,12 +6,12 @@
 /*   By: daalmeid <daalmeid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 17:10:02 by daalmeid          #+#    #+#             */
-/*   Updated: 2022/02/18 16:24:24 by daalmeid         ###   ########.fr       */
+/*   Updated: 2022/05/03 12:33:25 by daalmeid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include "libft.h"
+#include "../headers/fdf.h"
+#include "../headers/libft.h"
 #include <stdio.h>
 
 static int	hexstring_to_int(char *hexsting)

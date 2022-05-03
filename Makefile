@@ -5,42 +5,72 @@
 #                                                     +:+ +:+         +:+      #
 #    By: daalmeid <daalmeid@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/12/20 15:18:15 by daalmeid          #+#    #+#              #
-#    Updated: 2022/04/20 15:00:46 by daalmeid         ###   ########.fr        #
+#    Created: 2022/04/26 16:48:15 by daalmeid          #+#    #+#              #
+#    Updated: 2022/05/03 12:35:01 by daalmeid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+################## Program #################
 
-NAME	= FdF
+NAME = FdF
 
-SRCS	= fdf.c ft_drawing.c ft_line_creation_image.c ft_base_grid.c\
-		  ft_final_design.c fdf_utils.c handler_clicks.c handler_keys.c\
-		  measurements.c pantry.c instructions_square.c rotations.c zoom.c
+################## COLORS ##################
 
-OBJS	= *.o
+--GRN	=		\033[32m
+--RED	=		\033[31m
+--WHT	=		\033[39m
 
-RM		= rm -f
+################## TERMINAL ################
 
-LIBFT	= libft.a
+RM		=		rm -f
 
-$(NAME): $(LIBFT) $(OBJS)
-	gcc -Wall -Wextra -Werror -I /usr/local/include $(SRCS) -L /usr/local/lib/ \
-	-lmlx -L ./libft -lft -framework OpenGL -framework AppKit -o $(NAME)
+################## COMPILER ################
 
-$(OBJS):
-	gcc -Wall -Wextra -Werror -c $(SRCS)
+CC		=		cc
+CFLAGS	=		-Wall -Werror -Wextra
 
-$(LIBFT):
-	cd libft/ && make && cp libft.h ../
-	
-all:	$(NAME)
+################## FILES ###################
+
+SRCS	=	srcs/fdf.c\
+			srcs/ft_drawing.c\
+			srcs/ft_line_creation_image.c\
+			srcs/ft_base_grid.c\
+			srcs/ft_final_design.c\
+			srcs/fdf_utils.c\
+			srcs/handler_clicks.c\
+			srcs/handler_keys.c\
+			srcs/measurements.c\
+			srcs/pantry.c\
+			srcs/instructions_square.c\
+			srcs/rotations.c\
+			srcs/zoom.c\
+
+OBJS	=	$(SRCS:.c=.o)
+
+LIB_DIR	=	-L./libft -L/usr/local/lib/
+LIBS	=	-lft -lmlx
+FRMWRKS	=	-framework OpenGL -framework AppKit
+
+################## RULES ###################
+
+all: $(NAME)
+
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIB_DIR) $(LIBS) $(FRMWRKS)
+
+libft:
+	cd libft && make
+
+################## CLEAN ###################
 
 clean:
+	cd libft && make clean
 	$(RM) $(OBJS)
 
-fclean:	clean
+fclean: clean
+	cd libft && make fclean
 	$(RM) $(NAME)
 
-re:		fclean all
+re: fclean all
 
-bonus: 
+.PHONY: all clean fclean re

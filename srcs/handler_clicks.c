@@ -6,12 +6,12 @@
 /*   By: daalmeid <daalmeid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 17:49:09 by daalmeid          #+#    #+#             */
-/*   Updated: 2022/02/18 17:02:46 by daalmeid         ###   ########.fr       */
+/*   Updated: 2022/05/03 12:33:52 by daalmeid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include "libft.h"
+#include "../headers/fdf.h"
+#include "../headers/libft.h"
 #include <stdio.h>
 
 int	cross_handler(void *param)

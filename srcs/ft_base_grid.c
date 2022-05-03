@@ -6,12 +6,12 @@
 /*   By: daalmeid <daalmeid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 17:00:03 by daalmeid          #+#    #+#             */
-/*   Updated: 2022/02/18 16:22:38 by daalmeid         ###   ########.fr       */
+/*   Updated: 2022/05/03 12:33:11 by daalmeid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include "libft.h"
+#include "../headers/fdf.h"
+#include "../headers/libft.h"
 #include <stdio.h>
 
 static t_cd	**alloc_grid(t_cd size)

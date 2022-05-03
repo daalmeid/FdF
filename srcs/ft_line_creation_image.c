@@ -6,12 +6,12 @@
 /*   By: daalmeid <daalmeid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/07 15:22:06 by daalmeid          #+#    #+#             */
-/*   Updated: 2022/04/26 20:09:38 by daalmeid         ###   ########.fr       */
+/*   Updated: 2022/05/03 12:33:40 by daalmeid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include "libft.h"
+#include "../headers/fdf.h"
+#include "../headers/libft.h"
 
 static void	real_line_draw(t_cd cd[], float b)
 {

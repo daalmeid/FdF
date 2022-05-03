@@ -6,12 +6,12 @@
 /*   By: daalmeid <daalmeid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 14:05:36 by daalmeid          #+#    #+#             */
-/*   Updated: 2022/02/18 16:45:56 by daalmeid         ###   ########.fr       */
+/*   Updated: 2022/05/03 12:33:57 by daalmeid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include "libft.h"
+#include "../headers/fdf.h"
+#include "../headers/libft.h"
 #include <stdio.h>
 
 static void	wasd_esc_handler(int key, void **mlx, int *x, int *y)

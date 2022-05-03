@@ -6,12 +6,12 @@
 /*   By: daalmeid <daalmeid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 13:08:20 by daalmeid          #+#    #+#             */
-/*   Updated: 2022/02/18 16:49:42 by daalmeid         ###   ########.fr       */
+/*   Updated: 2022/05/03 12:34:10 by daalmeid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include "libft.h"
+#include "../headers/fdf.h"
+#include "../headers/libft.h"
 #include <stdio.h>
 
 static void	window_clearer(void **mlx, int x, int y)

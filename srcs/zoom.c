@@ -6,12 +6,12 @@
 /*   By: daalmeid <daalmeid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:03:18 by daalmeid          #+#    #+#             */
-/*   Updated: 2022/02/18 17:01:07 by daalmeid         ###   ########.fr       */
+/*   Updated: 2022/05/03 12:34:30 by daalmeid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include "libft.h"
+#include "../headers/fdf.h"
+#include "../headers/libft.h"
 #include <stdio.h>
 
 void	copy_z(t_cd **old_grid, t_cd **new_grid)
