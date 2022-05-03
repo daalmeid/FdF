@@ -6,7 +6,7 @@
 #    By: daalmeid <daalmeid@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/25 18:12:17 by daalmeid          #+#    #+#              #
-#    Updated: 2022/01/28 13:19:41 by daalmeid         ###   ########.fr        #
+#    Updated: 2022/05/03 13:04:25 by daalmeid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ OBJS	= *.o
 RM = rm -f
 
 $(NAME): $(OBJS)
-	ar rc $(NAME) $(OBJS) && make clean
+	ar rc $(NAME) $(OBJS)
 
 $(OBJS):
 	gcc -Wall -Wextra -Werror -c $(SRCS)
@@ -46,3 +46,5 @@ re:		fclean all
 bonus: clean
 	gcc -Wall -Wextra -Werror -c $(SRCS) $(SRCS_BONUS)
 	ar rc $(NAME) $(OBJS)
+
+.PHONY: all clean fclean re

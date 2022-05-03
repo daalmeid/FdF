@@ -6,7 +6,7 @@
 #    By: daalmeid <daalmeid@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/04/26 16:48:15 by daalmeid          #+#    #+#              #
-#    Updated: 2022/05/03 12:35:01 by daalmeid         ###   ########.fr        #
+#    Updated: 2022/05/03 13:03:14 by daalmeid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,11 +55,11 @@ FRMWRKS	=	-framework OpenGL -framework AppKit
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIB_DIR) $(LIBS) $(FRMWRKS)
-
 libft:
 	cd libft && make
+
+$(NAME): $(OBJS) libft
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIB_DIR) $(LIBS) $(FRMWRKS)
 
 ################## CLEAN ###################
 
@@ -73,4 +73,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re libft
