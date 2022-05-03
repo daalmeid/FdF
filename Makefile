@@ -6,7 +6,7 @@
 #    By: daalmeid <daalmeid@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/20 15:18:15 by daalmeid          #+#    #+#              #
-#    Updated: 2022/04/13 19:04:01 by daalmeid         ###   ########.fr        #
+#    Updated: 2022/04/20 15:00:46 by daalmeid         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ RM		= rm -f
 LIBFT	= libft.a
 
 $(NAME): $(LIBFT) $(OBJS)
-	gcc -Wall -Wextra -Werror -I /usr/local/include $(SRCS) -L /usr/local/lib/\
+	gcc -Wall -Wextra -Werror -I /usr/local/include $(SRCS) -L /usr/local/lib/ \
 	-lmlx -L ./libft -lft -framework OpenGL -framework AppKit -o $(NAME)
 
 $(OBJS):

@@ -6,7 +6,7 @@
 /*   By: daalmeid <daalmeid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 15:25:04 by daalmeid          #+#    #+#             */
-/*   Updated: 2022/02/18 16:39:37 by daalmeid         ###   ########.fr       */
+/*   Updated: 2022/04/26 20:09:57 by daalmeid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_drawing(t_cd **grd, void **mlx)
 		j = 0;
 		while (grd[i][j].x != -2147483648)
 		{
-			ft_line_creation(grd[i - 1][j].x, grd[i - 1][j].y, grd[i][j].color,
+			ft_line_creation(grd[i - 1][j].x, grd[i - 1][j].y, grd[i - 1][j].color,
 				mlx);
 			ft_line_creation(grd[i][j].x, grd[i][j].y, grd[i][j].color, mlx);
 			j++;
